@@ -21,6 +21,8 @@ class SimpleTurtlesimKinematics(Node):
         Tx = self.last_turtle2_pose_.x - self.last_turtle1_pose_.x
         Ty = self.last_turtle2_pose_.y - self.last_turtle1_pose_.y
 
+        theta_rad = self.last_turtle2_pose_.theta - self.last_turtle1_pose_.theta
+
         self.get_logger().info("""\n
                 Translation vector turtle1 -> turtle2 \n
                 Tx: %f \n

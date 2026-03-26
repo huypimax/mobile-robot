@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             "simple_parameter = bumperbot_py_examples.simple_parameter:main",
             "simple_turtlesim_kinematics = bumperbot_py_examples.simple_turtlesim_kinematics:main",
-            "simple_tf_kinematics = bumperbot_py_examples.simple_tf_kinematics:main"
+            "simple_tf_kinematics = bumperbot_py_examples.simple_tf_kinematics:main",
+            "simple_lifecycle_node = bumperbot_py_examples.simple_lifecycle_node:main"
         ],
     },
 )

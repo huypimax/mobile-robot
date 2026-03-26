@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(bumperbot_cpp_examples)
+project(bumperbot_localization)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,36 +7,42 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rclcpp_lifecycle REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(rcl_interfaces REQUIRED)
-find_package(bumperbot_msgs)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
+ament_python_install_package(${PROJECT_NAME})
 
 include_directories(include)
 
-add_executable(simple_parameter src/simple_parameter.cpp)
-ament_target_dependencies(simple_parameter rclcpp rcl_interfaces)
+add_executable(kalman_filter src/kalman_filter.cpp)
+ament_target_dependencies(kalman_filter rclcpp nav_msgs sensor_msgs)
 
-add_executable(simple_lifecycle_node src/simple_lifecycle_node.cpp)
-ament_target_dependencies(simple_lifecycle_node rclcpp rclcpp_lifecycle std_msgs)
+add_executable(imu_republisher src/imu_republisher.cpp)
+ament_target_dependencies(imu_republisher rclcpp sensor_msgs)
 
-add_executable(simple_tf_kinematics src/simple_tf_kinematics.cpp)
-ament_target_dependencies(simple_tf_kinematics rclcpp std_msgs geometry_msgs tf2_ros tf2 bumperbot_msgs)
-
-install(TARGETS
-  simple_parameter
-  simple_lifecycle_node
-  simple_tf_kinematics
+install(PROGRAMS
+  ${PROJECT_NAME}/kalman_filter.py
+  ${PROJECT_NAME}/imu_republisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
 install(
   DIRECTORY include
   DESTINATION include
+)
+
+install(TARGETS
+  kalman_filter
+  imu_republisher
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

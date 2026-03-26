@@ -104,7 +104,7 @@ class SimpleController(Node):
         self.transform_stamped_.transform.rotation.z = q[2]
         self.transform_stamped_.transform.rotation.w = q[3]
         self.transform_stamped_.header.stamp = self.get_clock().now().to_msg()
-        self.br_.sendTransform(self.transform_stamped)
+        self.br_.sendTransform(self.transform_stamped_)
 
         self.get_logger().info("linear: %f, angular: %f", (linear, angular))
         self.get_logger().info("x: %f, y: %f, theta: %f" % (self.x_, self.y_, self.theta_))
